@@ -1,0 +1,42 @@
+services:
+
+  pedido-service:
+    build: ./pedido-service
+    container_name: pedido-service
+    ports:
+      - "3001:3001"
+    networks:
+      - pedidos-network
+
+  estoque-service:
+    build: ./estoque-service
+    container_name: estoque-service
+    ports:
+      - "3002:3002"
+    networks:
+      - pedidos-network
+
+  pagamento-service:
+    build: ./pagamento-service
+    container_name: pagamento-service
+    ports:
+      - "3003:3003"
+    networks:
+      - pedidos-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - pedido-service
+      - estoque-service
+      - pagamento-service
+    networks:
+      - pedidos-network
+
+
+networks:
+  pedidos-network:
+    driver: bridge

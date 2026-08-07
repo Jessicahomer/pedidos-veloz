@@ -5,6 +5,11 @@ const PORT = 3001;
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // Rota para verificar se o serviço está funcionando
 app.get("/health", (req, res) => {
   res.json({
@@ -30,6 +35,10 @@ app.post("/pedidos", (req, res) => {
     mensagem: "Pedido criado com sucesso!",
     pedido
   });
+});
+
+app.get("/", (req, res) => {
+  res.send("Pedido Service funcionando!");
 });
 
 app.listen(PORT, () => {
